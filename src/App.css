@@ -5,38 +5,89 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+#header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 90px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #AB0309;
+  z-index: 1000;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+#main {
+  margin-top: 90px;
+}
+
+#title {
+  font-size: 32px;
+}
+
+#subtitle {
+  font-size: 16px;
+}
+
+#wheel-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+#middle-of-wheel-img {
+  position: absolute;
+  left: 200px;
+  top: 200px;
+  z-index: 100;
+}
+
+#red-line {
+  width: 30px;
+  height: 258px;
+  position: absolute;
+  left: 222px;
+  top: -3px;
+  z-index: 100;
+  background: linear-gradient(to top right, rgba(190,6,12,0) 0%, rgba(190,6,12,0) calc(50% - 3px), rgba(190,6,12,1) 50%, rgba(190,6,12,0) calc(50% + 3px), rgba(190,6,12,0) 100%);
+}
+
+#game-not-started {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+#questions-input-container {
+  display: flex;
+  align-items: baseline;
+  column-gap: 30px;
+}
+
+@media only screen and (max-width: 660px) {
+  #wheel-container {
+    width: 300px;
+    height: 300px;
   }
-  to {
-    transform: rotate(360deg);
+
+  #middle-of-wheel-img {
+    left: 100px;
+    top: 100px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  
+  #red-line {
+    width: 20px;
+    height: 158px;
+    left: 130px;
   }
-}
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  #questions-input-container {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 30px;
+  }
 }

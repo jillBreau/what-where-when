@@ -49,11 +49,15 @@ const App = () => {
     setText("")
   }
 
+  const checkValidQuestionsCount = () => {
+    return questionsCount && questionsCount >= 2 && questionsCount <= 30
+  }
+
   const startGame = () => {
     setQuestions(Array.from({ length: questionsCount }, (_, i) => ({
       label: `${i + 1}`,
       value: 1,
-      color: i % 2 === 0 ? '#000000' : '#111111',
+      color: i % 2 === 0 ? '#000000' : '#161616',
     })))
     setGameStarted(true)
   }
@@ -130,26 +134,13 @@ const App = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <header 
-        style={{
-          position: 'fixed',
-          top: '0px',
-          left: '0px',
-          height: '90px',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 32,
-          backgroundColor: '#AB0309',
-        }}>
-        <span>Что? Где? Когда?</span>
-        <span style={{ fontSize: 16 }}>What? Where? When?</span>
+      <header id="header">
+        <span id="title">Что? Где? Когда?</span>
+        <span id="subtitle">What? Where? When?</span>
       </header>
-      <main>
+      <main id="main">
       {gameStarted ? (
-        <>
+        <div id="game-started">
           <GoldButton
             variant="contained"
             size="large"
@@ -158,33 +149,22 @@ const App = () => {
           >
             Spin!
           </GoldButton>
-          <p style={{ height: '20px'}}>{text}</p>
+          <p>{text}</p>
     
-          <div style={{ position: 'relative', width: '500px', height: '500px', paddingLeft: '90px', marginBottom: '20px' }}>
+          <div id="wheel-container">
             <img
+              id="middle-of-wheel-img"
               src="middle-of-wheel.png"
               alt="Middle of What Where When wheel"
               height="100px"
               width="100px"
-              style={{ position: 'absolute', left: '243px', top: '200px', zIndex: 100 }}
             />
-            <div
-              style={{
-                width: '25px',
-                height: '200px',
-                position: 'absolute',
-                left: '266px',
-                top: '50px',
-                zIndex: 100,
-                background: 'linear-gradient(to top right, rgba(190,6,12,0) 0%, rgba(190,6,12,0) calc(50% - 3px), rgba(190,6,12,1) 50%, rgba(190,6,12,0) calc(50% + 3px), rgba(190,6,12,0) 100%)'
-              }}
-            />
+            <div id="red-line"/>
             
             <PieChart
               slotProps={{ legend: { hidden: true } }}
               tooltip={{ slotProps: { popper: { hidden: true } }}}
-              width={500}
-              height={500}
+              margin={{ top: 0, bottom: 0, left: 0, right: 0 }}
               series={[
                 {
                   data: questions
@@ -210,32 +190,37 @@ const App = () => {
           </div>
 
           <Button
-            variant="outlined"
+            variant={questions.every((question) => question.answered) ? "contained" : "outlined"}
             color="error"
             size="small"
+            disabled={spinning}
             onClick={() => setupNewGame()}
           >
             New game
           </Button>
-        </>
+        </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', rowGap: '40px' }}>
-          <span style={{ fontSize: 20 }}>How many questions do you have prepared?</span>
-          <div style={{ display: 'flex', alignItems: 'baseline', columnGap: '30px' }}>
+        <div id="game-not-started">
+          <span>How many questions do you have prepared?</span>
+          <div id="questions-input-container">
             <TextField
               id="questions-input"
               value={questionsCount}
-              error={!questionsCount || questionsCount < 2 || questionsCount > 30}
+              error={!checkValidQuestionsCount()}
               helperText="Enter a number between 2 and 30"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setQuestionsCount(parseInt(event.target.value) || 0)
               }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && checkValidQuestionsCount()) {
+                  startGame()
+                }
+              }}
             />
             <GoldButton
               variant="contained"
-              disabled={!questionsCount || questionsCount < 2 || questionsCount > 30}
+              disabled={!checkValidQuestionsCount()}
               onClick={startGame}
-              style={{ height: '40px'}}
             >
               Start game
             </GoldButton>
