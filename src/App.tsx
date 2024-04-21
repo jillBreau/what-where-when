@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { PieChart, pieArcLabelClasses, pieArcClasses } from '@mui/x-charts/PieChart';
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Button, { ButtonProps } from '@mui/material/Button';
+import * as React from 'react'
+import { PieChart, pieArcLabelClasses, pieArcClasses } from '@mui/x-charts/PieChart'
+import { ThemeProvider, createTheme, styled } from '@mui/material/styles'
+import TextField from '@mui/material/TextField'
+import Button, { ButtonProps } from '@mui/material/Button'
 import './App.css'
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
-});
+})
 
 const GoldButton = styled(Button)<ButtonProps>(() => ({
   color: 'black',
@@ -17,7 +17,7 @@ const GoldButton = styled(Button)<ButtonProps>(() => ({
   '&:hover': {
     backgroundColor: '#D4B065',
   },
-}));
+}))
 
 const App = () => {
   const minIncrements = 30
@@ -34,8 +34,8 @@ const App = () => {
     color?: string,
     answered?: boolean,
   }[]>([])
-  const [questionsIndex, setQuestionsIndex] = React.useState(0);
-  const [finalQuestionIndex, setFinalQuestionIndex] = React.useState<number | undefined>();
+  const [questionsIndex, setQuestionsIndex] = React.useState(0)
+  const [finalQuestionIndex, setFinalQuestionIndex] = React.useState<number | undefined>()
   const [spinning, setSpinning] = React.useState(false)
   const [text, setText] = React.useState("")
 
@@ -53,7 +53,7 @@ const App = () => {
     setQuestions(Array.from({ length: questionsCount }, (_, i) => ({
       label: `${i + 1}`,
       value: 1,
-      color: i % 2 === 0 ? '#000000' : '#111111'
+      color: i % 2 === 0 ? '#000000' : '#111111',
     })))
     setGameStarted(true)
   }
@@ -81,7 +81,10 @@ const App = () => {
     const totalIncrements = typeof increments !== 'undefined'
       ? increments
       : Math.floor(Math.random() * (maxIncrements - minIncrements) + minIncrements)
-    const determinedFinalQuestionIndex = determineFinalQuestionIndex(totalIncrements, typeof previousFinalQuestionIndex !== 'undefined' ? previousFinalQuestionIndex : finalQuestionIndex)
+    const determinedFinalQuestionIndex = determineFinalQuestionIndex(
+      totalIncrements,
+      typeof previousFinalQuestionIndex !== 'undefined' ? previousFinalQuestionIndex : finalQuestionIndex,
+    )
     setFinalQuestionIndex(determinedFinalQuestionIndex)
 
     const incrementQuestionWheel = (delay: number, increment: number) => {
@@ -96,7 +99,7 @@ const App = () => {
             : increment > totalIncrements - incrementsToVaryDelay
               ? delay + delayVariance
               : delay,
-          increment + 1
+          increment + 1,
         )
       } else {
         if (questions[determinedFinalQuestionIndex].answered) {
@@ -139,7 +142,7 @@ const App = () => {
           justifyContent: 'center',
           alignItems: 'center',
           fontSize: 32,
-          backgroundColor: '#AB0309'
+          backgroundColor: '#AB0309',
         }}>
         <span>Что? Где? Когда?</span>
         <span style={{ fontSize: 16 }}>What? Where? When?</span>
@@ -196,7 +199,7 @@ const App = () => {
                   fill: 'red',
                   fontSize: 20,
                   fontWeight: 600,
-                  textShadow: '0.5px 0.5px white, -0.5px 0.5px white, 0.5px -0.5px white, -0.5px -0.5px white'
+                  textShadow: '0.5px 0.5px white, -0.5px 0.5px white, 0.5px -0.5px white, -0.5px -0.5px white',
                 },
                 [`& .${pieArcClasses.root}`]: {
                   stroke: '#D4B065',
@@ -225,7 +228,7 @@ const App = () => {
               error={!questionsCount || questionsCount < 2 || questionsCount > 30}
               helperText="Enter a number between 2 and 30"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setQuestionsCount(parseInt(event.target.value) || 0);
+                setQuestionsCount(parseInt(event.target.value) || 0)
               }}
             />
             <GoldButton
